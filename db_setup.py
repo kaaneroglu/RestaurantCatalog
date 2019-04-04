@@ -45,7 +45,7 @@ class Restaurant(Base):
     cuisine = relationship(Cuisine)  # Relationship to the actual class
 
 
-##End of file configuration: Create the database and tables
+##Configuration: Create the database and tables
 engine = create_engine('sqlite:///yycrestaurants.db')
 Base.metadata.create_all(engine)
 
@@ -61,7 +61,7 @@ DBSession = sessionmaker(bind=engine)
 # you can revert all of them back to the last commit by calling session.rollback()
 session = DBSession()
 
-# Initial cuisines and restaurants. This code is a bit repetitive;
+## Initial cuisines and restaurants. This code is a bit repetitive;
 # Trying to loop through list/dictionaries wasn't any shorter in terms of keeping the code DRY.
 #[ "Italian", "Indian", "Sushi", "Thai", "Vietnamese", "Burgers", "Canadian", "Asian", "Mexican"]
 
@@ -71,8 +71,7 @@ session.add(cuisine1)
 session.commit()
 
 italian1 = Restaurant(name="Teatro",
-                      description="Set in a former banking hall in downtown Calgary. "
-                                  "Fine Italian cuisine with carefully chosen, mostly local ingredients",
+                      description=" Italian-influenced with hints of French. ",
                       phone="403-290-1012", website="http://www.teatro-rest.com/",
                       address="200 8th Ave SE Calgary, Alberta", cuisine=cuisine1)
 
