@@ -1,5 +1,5 @@
 # Restaurant Catalog
-Best restaurants in Calgary by cuisines.
+Best restaurants in Calgary by cuisines. Used trello for project management; https://trello.com/b/gxybDdor
 
 ## Database design
 database setup script sets up a new database with some initial data. inser UML image here.
