@@ -16,7 +16,8 @@ session = DBSession()
 @app.route('/')
 @app.route('/cuisines', methods=['GET'])
 def showCuisines():
-    return "This page shows all cuisines. GET"
+    cuisines= session.query(Cuisine).all()
+    return render_template('index.html', title='Restaurant Catalog', cuisines=cuisines)
 
 # Route for CREATE new cuisine
 @app.route('/cuisines/new/', methods=['GET', 'POST'])

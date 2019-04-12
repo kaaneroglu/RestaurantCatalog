@@ -45,91 +45,97 @@ class Restaurant(Base):
     cuisine = relationship(Cuisine)  # Relationship to the actual class
 
 
-##Configuration: Create the database and tables
+## Configuration: Create the database and tables
 engine = create_engine('sqlite:///yycrestaurants.db')
 Base.metadata.create_all(engine)
 
-### Populate starter data in the database
-## Bind the engine to the metadata of the Base class (enables declaratives to be accessed through a DBSession instance)
-Base.metadata.bind = engine
+## Function to populate data
+def populateData():
+    ### Populate starter data in the database
+    ## Bind the engine to the metadata of the Base class (enables declaratives to be accessed through a DBSession instance)
+    Base.metadata.bind = engine
 
-DBSession = sessionmaker(bind=engine)
+    DBSession = sessionmaker(bind=engine)
 
-# A DBSession() instance establishes all conversations with the database and represents a "staging zone"
-# for all the objects loaded into the database session object. Any change made against the objects in the
-# session won't be persisted into the database until you call session.commit(). If you're not happy about the changes,
-# you can revert all of them back to the last commit by calling session.rollback()
-session = DBSession()
+    # A DBSession() instance establishes all conversations with the database and represents a "staging zone"
+    # for all the objects loaded into the database session object. Any change made against the objects in the
+    # session won't be persisted into the database until you call session.commit(). If you're not happy about the changes,
+    # you can revert all of them back to the last commit by calling session.rollback()
+    session = DBSession()
 
-## Initial cuisines and restaurants. This code is a bit repetitive;
-# Trying to loop through list/dictionaries wasn't any shorter in terms of keeping the code DRY.
-#[ "Italian", "Indian", "Sushi", "Thai", "Vietnamese", "Burgers", "Canadian", "Asian", "Mexican"]
+    ## Initial cuisines and restaurants. This code is a bit repetitive;
+    # Trying to loop through list/dictionaries wasn't any shorter in terms of keeping the code DRY.
+    #[ "Italian", "Indian", "Sushi", "Thai", "Vietnamese", "Burgers", "Canadian", "Asian", "Mexican"]
 
-cuisine1 = Cuisine(name="Italian")
+    cuisine1 = Cuisine(name="Italian")
 
-session.add(cuisine1)
-session.commit()
+    session.add(cuisine1)
+    session.commit()
 
-italian1 = Restaurant(name="Teatro",
-                      description=" Italian-influenced with hints of French. ",
-                      phone="403-290-1012", website="http://www.teatro-rest.com/",
-                      address="200 8th Ave SE Calgary, Alberta", cuisine=cuisine1)
+    italian1 = Restaurant(name="Teatro",
+                          description=" Italian-influenced with hints of French. ",
+                          phone="403-290-1012", website="http://www.teatro-rest.com/",
+                          address="200 8th Ave SE Calgary, Alberta", cuisine=cuisine1)
 
-session.add(italian1)
-session.commit()
+    session.add(italian1)
+    session.commit()
 
-italian2 = Restaurant(name="Posto",
-                      description="Pizza and Italian small plates.",
-                      phone="403-263-4876", website="http://www.posto.ca/",
-                      address="1014 8 St. S.W. Calgary, Alberta", cuisine=cuisine1)
+    italian2 = Restaurant(name="Posto",
+                          description="Pizza and Italian small plates.",
+                          phone="403-263-4876", website="http://www.posto.ca/",
+                          address="1014 8 St. S.W. Calgary, Alberta", cuisine=cuisine1)
 
-session.add(italian2)
-session.commit()
+    session.add(italian2)
+    session.commit()
 
-cuisine2 = Cuisine(name="Canadian")
+    cuisine2 = Cuisine(name="Canadian")
 
-session.add(cuisine1)
-session.commit()
+    session.add(cuisine1)
+    session.commit()
 
-canadian1 = Restaurant(name="Donna Mac",
-                      description="Equal parts new-school sensitive and reliably classic.",
-                      phone="403-719-3622", website="http://www.donnamacyyc.com/",
-                      address="1002 9 St. S.W. Calgary, Alberta", cuisine=cuisine2)
+    canadian1 = Restaurant(name="Donna Mac",
+                          description="Equal parts new-school sensitive and reliably classic.",
+                          phone="403-719-3622", website="http://www.donnamacyyc.com/",
+                          address="1002 9 St. S.W. Calgary, Alberta", cuisine=cuisine2)
 
-session.add(canadian1)
-session.commit()
+    session.add(canadian1)
+    session.commit()
 
-cuisine3 = Cuisine(name="Asian")
+    cuisine3 = Cuisine(name="Asian")
 
-session.add(cuisine3)
-session.commit()
+    session.add(cuisine3)
+    session.commit()
 
-asian1 = Restaurant(name="Gorilla Whale",
-                      description="Japanese gets funky in dishes that embrace high and low.",
-                      phone="587-356-2686", website="http://www.donnamacyyc.com/",
-                      address="1214 9 Ave. S.E. Calgary, Alberta", cuisine=cuisine3)
+    asian1 = Restaurant(name="Gorilla Whale",
+                          description="Japanese gets funky in dishes that embrace high and low.",
+                          phone="587-356-2686", website="http://www.donnamacyyc.com/",
+                          address="1214 9 Ave. S.E. Calgary, Alberta", cuisine=cuisine3)
 
-session.add(asian1)
-session.commit()
+    session.add(asian1)
+    session.commit()
 
-asian2 = Restaurant(name="Anju",
-                      description="Contemporary Korean.",
-                      phone="403-460-3341", website="http://www.anju.ca/",
-                      address="105, 344 17 Ave. S.W. Calgary, Alberta", cuisine=cuisine3)
+    asian2 = Restaurant(name="Anju",
+                          description="Contemporary Korean.",
+                          phone="403-460-3341", website="http://www.anju.ca/",
+                          address="105, 344 17 Ave. S.W. Calgary, Alberta", cuisine=cuisine3)
 
-session.add(asian2)
-session.commit()
+    session.add(asian2)
+    session.commit()
 
-cuisine4 = Cuisine(name="Mexican")
+    cuisine4 = Cuisine(name="Mexican")
 
-session.add(cuisine4)
-session.commit()
+    session.add(cuisine4)
+    session.commit()
 
-mexican1 = Restaurant(name="Anejo",
-                      description="Handcrafted recipes cooked to perfection in Mexican style "
-                                  "with a flair for contemporary flavours",
-                      phone="587-353-2656", website="http://www.anejo.ca/",
-                      address="2116 4 St. S.W. Calgary, Alberta", cuisine=cuisine4)
+    mexican1 = Restaurant(name="Anejo",
+                          description="Handcrafted recipes cooked to perfection in Mexican style "
+                                      "with a flair for contemporary flavours",
+                          phone="587-353-2656", website="http://www.anejo.ca/",
+                          address="2116 4 St. S.W. Calgary, Alberta", cuisine=cuisine4)
 
-session.add(mexican1)
-session.commit()
+    session.add(mexican1)
+    session.commit()
+
+## If the script is directly executed, populate data in tables
+if __name__ == '__main__':
+    populateData()
