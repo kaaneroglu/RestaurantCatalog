@@ -3,38 +3,43 @@
 
 <head>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <meta content="" name="description">
+    <meta content="" name="author">
 
-  <title>Calgary Restaurant Catalog</title>
+    <title>Calgary Restaurant Catalog</title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Custom styles for this template -->
-  <link href="../static/simple-sidebar.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/static/simple-sidebar.css" rel="stylesheet">
 
 </head>
 
 <body>
 
-  <div class="d-flex" id="wrapper">
+<div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading">Cuisines </div>
-      <div class="list-group list-group-flush">
-        <a href="/cuisines/new/" class="list-group-item list-group-item-action btn btn-success" role="button">Create New Cuisine</a>
-        {% for cuisine in cuisines %}
-          <div class="btn-group" role="group" aria-label="Modify Cuisine"></a>
-            <a href="/cuisines/{{ cuisine.id }}/" class="btn list-group-item list-group-item-action btn btn-light" role="button">{{ cuisine.name }}</a>
-            <a href="/cuisines/{{ cuisine.id }}/edit/" class="btn btn-secondary btn-sm btn-warning" role="button">Edit</a>
-            <a href="/cuisines/{{ cuisine.id }}/delete/" class="btn btn-secondary btn-sm btn-danger" role="button">Delete</a>
-          </div>
-        {% endfor %}
-      </div>
+        <div class="sidebar-heading"><a class="btn btn-success btn-lg" data-placement="top" data-toggle="tooltip"
+                                        href="/" title="Homepage">Cuisines</a></div>
+        <div class="list-group list-group-flush">
+            <a class="list-group-item list-group-item-action btn btn-success" href="/cuisines/new/" role="button">Create
+                New Cuisine</a>
+            {% for cuisine in cuisines %}
+            <div aria-label="Modify Cuisine" class="btn-group" role="group"></a>
+                <a class="btn list-group-item list-group-item-action btn btn-light" href="/cuisines/{{ cuisine.id }}/"
+                   role="button">{{ cuisine.name }}</a>
+                <a class="btn btn-sm" data-placement="top" data-toggle="tooltip"
+                   href="/cuisines/{{ cuisine.id }}/restaurant/new/" role="button"
+                   title="Add new restaurant into {{ cuisine.name }} Cuisine">Add</a>
+                <!-- <a href="/cuisines/{{ cuisine.id }}/delete/" class="btn btn-secondary btn-sm btn-danger" role="button">Delete</a>-->
+            </div>
+            {% endfor %}
+        </div>
     </div>
     <!-- /#sidebar-wrapper -->
 
@@ -42,44 +47,59 @@
     <!-- Page Content -->
     <div id="page-content-wrapper">
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <button class="btn btn-secondary btn-sm" id="menu-toggle">Toggle Cuisine List</button>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <button class="btn btn-secondary btn-sm" id="menu-toggle">Toggle Cuisine List</button>&nbsp;
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="btn btn-secondary btn-sm alert-primary" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            {% block body %}{% endblock %}
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+            <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+                    class="navbar-toggler"
+                    data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Login/Logout <span class="sr-only">(current)</span></a>
-            </li>
-          </ul>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Login/Logout <span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <h1>Hello</h1>
+            <p>Select a cuisine from the left to display the restaurants...</p>
         </div>
-      </nav>
-
-      <div class="container-fluid">
-        <h1 class="mt-4">Simple Sidebar</h1>
-        <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
-        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p>
-      </div>
     </div>
     <!-- /#page-content-wrapper -->
 
-  </div>
-  <!-- /#wrapper -->
+</div>
+<!-- /#wrapper -->
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="../static/vendor/jquery/jquery.min.js"></script>
-  <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Menu Toggle Script -->
-  <script>
-    $("#menu-toggle").click(function(e) {
-      e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
     });
-  </script>
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>
 
 </body>
 
