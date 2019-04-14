@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Calgary Restaurant Catalog</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/simple-sidebar.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading"><a href="/" class="btn btn-outline-success btn-lg" data-toggle="tooltip"
+                                        data-placement="top" title="Homepage">Cuisines</a></div>
+        <div class="list-group list-group-flush">
+            <a href="/cuisines/new/" class="list-group-item list-group-item-action btn btn-success" role="button">Create
+                New Cuisine</a>
+            {% for cuisine in cuisines %}
+            <div class="btn-group" role="group" aria-label="Modify Cuisine"></a>
+                <a href="/cuisines/{{ cuisine.id }}/" class="btn list-group-item list-group-item-action btn btn-light"
+                   role="button">{{ cuisine.name }}</a>
+                <a href="/cuisines/{{ cuisine.id }}/restaurant/new/" class="btn btn-sm" role="button"
+                   data-toggle="tooltip" data-placement="top"
+                   title="Add new restaurant into {{ cuisine.name }} Cuisine">Add</a>
+                <!--<a href="/cuisines/{{ cuisine.id }}/delete/" class="btn btn-secondary btn-sm btn-danger" role="button">Delete</a>-->
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <button class="btn btn-secondary btn-sm" id="menu-toggle">Toggle Cuisine List</button>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Login/Logout <span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <h1>Delete restaurant {{ deletedrestaurant.name }} in {{ cuisineName.name }} Restaurants?</h1>
+            <form action="{{url_for('deleteRestaurant', restaurant_id=deletedrestaurant.id, cuisine_id=cuisineName.id)}}" method='POST'>
+
+                <button class="btn btn-primary btn-danger" type="submit" value="Delete">Yes</button>
+                <a href="/cuisines/{{ cuisineName.id }}" class="btn btn-primary btn-warning" >No</a>
+            </form>
+
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- Bootstrap core JavaScript -->
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>
+
+</body>
+
+</html>

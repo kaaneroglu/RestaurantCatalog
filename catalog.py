@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+#
+# Restaurant catalog for Calgary
+
 from flask import Flask, render_template
 from flask import request, redirect, url_for, flash, jsonify
 from sqlalchemy import create_engine
@@ -83,12 +87,25 @@ def newRestaurant(cuisine_id):
         'GET',
         'POST'])
 def editRestaurant(cuisine_id, restaurant_id):
+    editedRestaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
     if request.method == 'POST':
-        return "This page will edit restaurant %s under cuisine %s" % (
-            restaurant_id, cuisine_id)
+        if request.form['name']:
+            editedRestaurant.name = request.form['name']
+        if request.form['description']:
+            editedRestaurant.description = request.form['description']
+        if request.form['phone']:
+            editedRestaurant.phone = request.form['phone']
+        if request.form['website']:
+            editedRestaurant.website = request.form['website']
+        if request.form['address']:
+            editedRestaurant.address = request.form['address']
+        session.commit()
+        flash("Restaurant has been updated!")
+        return redirect(url_for('showRestaurants', cuisine_id = cuisine_id))
     else:
-        return "This page will edit restaurant %s under cuisine %s" % (
-            restaurant_id, cuisine_id)
+        cuisines = session.query(Cuisine).all()
+        cuisineName = session.query(Cuisine).filter_by(id=cuisine_id).one()
+        return render_template('editrestaurant.html', cuisine_id=cuisine_id, restaurant_id=restaurant_id, editedRestaurant=editedRestaurant, cuisineName=cuisineName, cuisines=cuisines)
 
 # Route for DELETE restaurant
 @app.route(
@@ -97,12 +114,16 @@ def editRestaurant(cuisine_id, restaurant_id):
         'GET',
         'POST'])
 def deleteRestaurant(cuisine_id, restaurant_id):
+    deletedRestaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
     if request.method == 'POST':
-        return "This page will delete restaurant %s under cuisine %s" % (
-            restaurant_id, cuisine_id)
+        session.delete(deletedRestaurant)
+        session.commit()
+        flash("Restaurant {} is deleted".format(deletedRestaurant.name))
+        return redirect(url_for('showRestaurants', cuisine_id = cuisine_id))
     else:
-        return "This page will delete restaurant %s under cuisine %s" % (
-            restaurant_id, cuisine_id)
+        cuisines = session.query(Cuisine).all()
+        cuisineName = session.query(Cuisine).filter_by(id=cuisine_id).one()
+        return render_template('deleterestaurant.html', cuisine_id = cuisine_id, cuisines=cuisines, cuisineName=cuisineName, deletedrestaurant=deletedRestaurant)
 
 # JSON API endpoint for getting all restaurants under a cuisine
 @app.route('/cuisines/<int:cuisine_id>/restaurant/JSON')

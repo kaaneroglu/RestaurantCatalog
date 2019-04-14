@@ -1,42 +1,23 @@
 # Restaurant Catalog
-Best restaurants in Calgary by cuisines. Used trello for project management; https://trello.com/b/gxybDdor
+Best restaurants in Calgary by cuisines. 
+This application uses Flask to demonstrate CRUD functionality on a sqlite database.
+Used trello for project management; https://trello.com/b/gxybDdor
 
 ## Database design
-database setup script sets up a new database with some initial data. inser UML image here.
-
+Database setup script sets up a new database with some initial data. inser UML image here.
+![vagrant --version](https://trello-attachments.s3.amazonaws.com/5caab4d54719c833bde0d5e0/946x486/1fea2f09e0853f3d04895b5504bc185d/database.jpg)
 ## Getting Started
 
 Instructions to run a copy of this on your machine.
 
 ### Prerequisites
 
-Python sqlalchemy. copy of cagrant
+Virtualbox and vagrant with sqlalchemy and python libraries. Please see instructions at https://github.com/udacity/fullstack-nanodegree-vm#installation to get your environment setup.
 
 ### Installing
 
-You can install psql and python on your system or use a VM that already has these installed. (Recommended to use Vagrant as VM, you can use [this Vagrantfile](https://github.com/udacity/fullstack-nanodegree-vm/blob/master/vagrant/Vagrantfile) provided by Udacity to set up your virtual machine with a blank news database)
-
-Download the project from github and create a folder named "LogAnalysis" and unzip the files.
-Next, download the data for news database [here](https://d17h27t6h515a5.cloudfront.net/topher/2016/August/57b5f748_newsdata/newsdata.zip). You will need to unzip this file after downloading it. The file inside is called newsdata.sql. Put this file into the "LogAnalysis" folder you just created.
-
-To load the data, cd into the vagrant directory and use the command below (Make sure you have a blank news database if you didn't use the Vagrantfile above)
-```
-psql -d news -f newsdata.sql
-```
-
-Here's what this command does:
-```
-psql — the PostgreSQL command line program
-
--d news — connect to the database named news (created by the vagrantfile, or by you if you are not using a VM)
-
--f newsdata.sql — run the SQL statements in the file newsdata.sql
-```
-
-Running this command will connect to your installed database server and execute the SQL commands in the downloaded file, creating tables and populating them with data. After this is completed go into the "LogAnalysis" folder on your console and type the command below to run the report;
-```
-python3 logs.py
-```
+Once you have the Vagrant up and running, copy this project (or clone with git) into /vagrant/catalog/ and run the application by typing 
+`python3 catalog.py`
 
 ## References / Authors
 
