@@ -45,6 +45,18 @@ class Restaurant(Base):
     cuisine = relationship(Cuisine)  # Relationship to the actual class
 
 
+#  JSON objects in a serializable format
+    @property
+    def serialize(self):
+        return {
+            'name': self.name,
+            'description': self.description,
+            'id': self.id,
+            'phone': self.phone,
+            'website': self.website,
+            'address': self.address,
+        }
+
 ## Configuration: Create the database and tables
 engine = create_engine('sqlite:///yycrestaurants.db')
 Base.metadata.create_all(engine)

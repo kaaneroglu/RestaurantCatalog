@@ -126,15 +126,16 @@ def deleteRestaurant(cuisine_id, restaurant_id):
         return render_template('deleterestaurant.html', cuisine_id = cuisine_id, cuisines=cuisines, cuisineName=cuisineName, deletedrestaurant=deletedRestaurant)
 
 # JSON API endpoint for getting all restaurants under a cuisine
-@app.route('/cuisines/<int:cuisine_id>/restaurant/JSON')
+@app.route('/cuisines/<int:cuisine_id>/JSON')
 def cuisineRestaurantsJSON(cuisine_id):
-    return "This page will have JSON output for all restaurants under cuisine %s" % cuisine_id
+    restaurants = session.query(Restaurant).filter_by(cuisine_id=cuisine_id)
+    return jsonify(Restaurants=[restaurant.serialize for restaurant in restaurants])
 
 # JSON API endpoint for getting a restaurant
 @app.route('/cuisines/<int:cuisine_id>/restaurant/<int:restaurant_id>/JSON')
 def restaurantDetaisJSON(cuisine_id, restaurant_id):
-    return "This page will have JSON output for restaurant %s details under cuisine %s" % (
-        restaurant_id, cuisine_id)
+    restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
+    return jsonify(Restaurants = restaurant.serialize)
 
 
 if __name__ == '__main__':
