@@ -6,7 +6,7 @@ from flask import Flask, render_template
 from flask import request, redirect, url_for, flash, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from db_setup import Base, Cuisine, Restaurant
+from db_setup import Base, Cuisine, Restaurant, User
 
 
 from flask import session as login_session
@@ -114,6 +114,11 @@ def gconnect():
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
 
+    user_id = getUserID(login_session['email'])
+    if not user_id:
+        user_id = createUser(login_session)
+    login_session['user_id'] = user_id
+
     output = ''
     output += '<h1>Welcome, '
     output += login_session['username']
@@ -143,7 +148,7 @@ def gdisconnect():
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
     print ('result is ')
-    print result
+    print (result)
     if result['status'] == '200':
         del login_session['access_token']
         del login_session['gplus_id']
@@ -160,6 +165,26 @@ def gdisconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
+def createUser(login_session):
+    newUser = User(name=login_session['username'], email=login_session[
+                   'email'], picture=login_session['picture'])
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email=login_session['email']).one()
+    return user.id
+
+
+def getUserInfo(user_id):
+    user = session.query(User).filter_by(id=user_id).one()
+    return user
+
+
+def getUserID(email):
+    try:
+        user = session.query(User).filter_by(email=email).one()
+        return user.id
+    except:
+        return None
 
 # Route for READ all cuisines
 @app.route('/')
@@ -174,7 +199,7 @@ def newCuisine():
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
-        newCuisineName = Cuisine(name=request.form['name'])
+        newCuisineName = Cuisine(name=request.form['name'], user_id=login_session['user_id'])
         session.add(newCuisineName)
         session.commit()
         flash("New cuisine created!")
@@ -222,7 +247,7 @@ def newRestaurant(cuisine_id):
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
-        newRestaurantInfo = Restaurant(name = request.form['name'], description = request.form['description'], phone = request.form['phone'], website = request.form['website'], address = request.form['address'], cuisine_id = cuisine_id)
+        newRestaurantInfo = Restaurant(name = request.form['name'], description = request.form['description'], phone = request.form['phone'], website = request.form['website'], address = request.form['address'], cuisine_id = cuisine_id, user_id=login_session['user_id'])
         session.add(newRestaurantInfo)
         session.commit()
         flash("New restaurant created!")
