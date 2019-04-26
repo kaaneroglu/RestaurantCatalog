@@ -58,7 +58,12 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Login/Logout <span class="sr-only">(current)</span></a>
+                        {%- if login_session.username -%}
+                        <img src="{{login_session.picture}}" class="img-responsive">
+                        <a class="nav-link" href="/gdisconnect">Logout<span class="sr-only">(current)</span></a>
+                        {%- else -%}
+                        <a class="nav-link" href="/login">Login<span class="sr-only">(current)</span></a>
+                        {%- endif -%}
                     </li>
                 </ul>
             </div>
